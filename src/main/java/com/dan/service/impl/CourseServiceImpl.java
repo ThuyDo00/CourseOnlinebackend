@@ -210,4 +210,8 @@ public class CourseServiceImpl implements CourseService {
     public Page<Course> getCourseByCategory(Category category, Pageable pageable) {
         return courseRepository.findByCategory(category, pageable);
     }
+    @Override
+    public Page<Course> getAllCoursesByUser(String keyword, Pageable pageable, String kCategory, User user) {
+        return courseRepository.searchByKeyword(keyword, pageable, kCategory, user.getId());
+    }
 }

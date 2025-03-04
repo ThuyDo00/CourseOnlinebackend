@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Page<Course> findByCategory(Category category, Pageable pageable);
     List<Course> findByCategoryOrTeacherAndIdNot(Category category, Teacher teacher, Pageable pageable, Long id);
     List<Course> findByTeacher(Teacher teacher);
+    @Query("SELECT c FROM Course c WHERE " +
+        "CONCAT(c.name, ' ', c.object) LIKE %:keyword% " +
+        "AND c.category.name LIKE %:kCategory% " +
+        "AND (:userId IS NULL OR c.teacher.user.id = :userId)")
+    Page<Course> searchByKeyword(@Param("keyword") String keyword,
+                                 Pageable pageable,
+                                 @Param("kCategory") String kCategory,
+                                 @Param("userId") Long userId);
 }

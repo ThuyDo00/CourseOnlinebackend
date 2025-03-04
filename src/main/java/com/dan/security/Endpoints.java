@@ -1,7 +1,8 @@
 package com.dan.security;
 
 public class Endpoints {
-    public static final String front_end_host = "http://localhost:3000";
+//    public static final String front_end_host = "http://localhost:3000";
+    public static final String front_end_host = "https://courseonlinehust.vercel.app";
     public static final String[] PUBLIC_GET_ENDPOINTS = {
             "/courses/**",
             "/comments/**",

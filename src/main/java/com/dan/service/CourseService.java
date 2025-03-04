@@ -1,9 +1,6 @@
 package com.dan.service;
 
-import com.dan.model.Category;
-import com.dan.model.Course;
-import com.dan.model.Report;
-import com.dan.model.Teacher;
+import com.dan.model.*;
 import com.dan.model.dto.CourseDetailAndSuggest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CourseService {
+    public Page<Course> getAllCoursesByUser(String keyword, Pageable pageable, String kCategory, User user);
     public Page<Course> getAllCourses(String keyword, Pageable pageable, String kCategory);
     List<Course> getAllCourses();
     List<Course> getCourseByTeacher(Teacher teacher);
