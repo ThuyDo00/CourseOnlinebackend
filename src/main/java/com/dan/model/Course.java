@@ -34,7 +34,7 @@ public class Course {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 }

@@ -1,10 +1,13 @@
 package com.dan.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -33,4 +36,7 @@ public class Teacher {
     private String achievements;
     @Column(columnDefinition = "TEXT")
     private String styleTeaching;
+     @JsonIgnore
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Course> courses;
 }
