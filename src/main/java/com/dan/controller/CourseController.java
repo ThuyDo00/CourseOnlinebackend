@@ -1,6 +1,8 @@
 package com.dan.controller;
 
-import com.dan.model.*;
+import com.dan.model.Category;
+import com.dan.model.Course;
+import com.dan.model.Teacher;
 import com.dan.model.dto.CourseDetailAndSuggest;
 import com.dan.model.dto.ResponseMessage;
 import com.dan.service.*;
@@ -22,8 +24,6 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private UserService userService;
-    @Autowired
     private FileUploadService fileUploadService;
     @Autowired
     private CategoryService categoryService;
@@ -33,24 +33,14 @@ public class CourseController {
     private Course_UserSubService course_userSubService;
 
     @GetMapping("")
-    public ResponseEntity<Page<Course>> getAllCourses(@RequestHeader("Authorization") String token,
-                                                      @RequestParam(value = "keyword", defaultValue = "") String keyword,
+    public ResponseEntity<Page<Course>> getAllCourses(@RequestParam(value = "keyword", defaultValue = "") String keyword,
                                                       @RequestParam(value = "category", defaultValue = "") String kCategory,
                                                       @RequestParam(value = "page", defaultValue = "0") int page,
                                                       @RequestParam(value = "size", defaultValue = "10") int size,
                                                       @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
                                                       @RequestParam(value = "order", defaultValue = "desc") String order) {
-        token = token.replace("Bearer ", "");
-        String username = jwtService.extractUsername(token);
-        User mUser = userService.getUserByUsername(username);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc(sortBy)));
-        Page<Course> courses;
-        if (mUser.getRoles().stream().map(Role::getName).anyMatch(roleName -> roleName == RoleName.ADMIN)) {
-            courses = courseService.getAllCourses(keyword, pageable, kCategory);
-        } else {
-            courses = courseService.getAllCoursesByUser(keyword, pageable, kCategory, mUser);
-        }
-        return new ResponseEntity<>(courses, HttpStatus.OK);
+        return new ResponseEntity<>(courseService.getAllCourses(keyword, pageable, kCategory), HttpStatus.OK);
     }
 
     @PostMapping("/admin/add")
