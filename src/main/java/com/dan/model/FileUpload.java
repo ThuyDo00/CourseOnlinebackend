@@ -16,7 +16,8 @@ public class FileUpload {
     private String fileType;
     private String fileCode;
     private Long size;
-
+    private String url;        // Cloudinary URL
+    private String publicId;   // Cloudinary public ID
     @ManyToOne
     @JoinColumn(name = "lession_id")
     private Lession lession;
